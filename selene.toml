@@ -1,0 +1,5 @@
+# For Luau / Roblox codebases
+std = "roblox" 
+
+# OR if you are writing standard Lua 5.1/5.4, use:
+# std = "lua51"
