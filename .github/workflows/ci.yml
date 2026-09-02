@@ -17,6 +17,7 @@ jobs:
       - name: Setup StyLua (Formatter)
         uses: JohnnyMorganz/stylua-action@v4
         with:
+          version: latest  # Add this line
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --check .
 
