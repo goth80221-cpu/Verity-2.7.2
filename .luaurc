@@ -1,7 +1,0 @@
-{
-  "languageMode": "strict",
-  "lint": {
-    "UnknownGlobal": "fatal",
-    "DeprecatedGlobal": "warn"
-  }
-}
