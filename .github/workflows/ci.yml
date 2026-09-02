@@ -11,43 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the repository code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Setup Rokit (The modern toolchain manager for Luau development)
-      - name: Setup Rokit Toolchain
-        uses: campbell-lang/setup-rokit@v0.1.1
-        with:
-          # Automatically installs tools defined in your rokit.toml file
-          trust-all-packages: true
-
-      # 3. Fallback: If you don't use Rokit, install binaries manually via Aftman/Foreman or standard GitHub Actions
       - name: Setup StyLua (Formatter)
         uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Checks both .lua and .luau files
           args: --check .
 
-      # 4. Install Luau tools for linting & analysis if not already managed by toolchain
       - name: Install Luau & Selene
         run: |
           sudo gh release download --repo Roblox/luau -p "*linux*.tgz" --out luau.tgz
           tar -xzf luau.tgz
           sudo mv luau luau-analyze /usr/local/bin/
           
-          # Install Selene for Lua / Luau linting
           sudo gh release download --repo Kampfkarrren/selene -p "*linux*.zip" --out selene.zip
           unzip selene.zip
           sudo mv selene /usr/local/bin/
 
-      # 5. Run Selene Linter
       - name: Run Selene Linting
         run: selene .
 
-      # 6. Run Official Luau Static Type & Lint Analysis
       - name: Run Luau Analysis
         run: |
-          # This runs the official Luau analyzer across all matching files
           find . -name "*.lua" -o -name "*.luau" | xargs luau-analyze
